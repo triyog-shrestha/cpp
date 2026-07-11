@@ -28,7 +28,9 @@ int main(){
             validateNums(y);
         }
         options();
-        cin >> op;
+        while (!(cin >> op)){
+            validateNums(op);
+        }
 
     
         if (op==1){
