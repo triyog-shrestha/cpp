@@ -11,7 +11,7 @@ int mul(int a, int b);
 float quo(float a, float b);
 void intro();
 void options();
-void validateNums(int a);
+void validateNums();
 
 int main(){
     intro();
@@ -21,15 +21,15 @@ int main(){
     
         cout<<"Enter a number : ";
         while(!(cin>>x)){
-            validateNums(y);
+            validateNums();
         }
         cout<<"Enter another number : ";
         while(!(cin>>y)){
-            validateNums(y);
+            validateNums();
         }
         options();
         while (!(cin >> op)){
-            validateNums(op);
+            validateNums();
         }
 
     
@@ -48,10 +48,17 @@ int main(){
         else{
             cout << "An error occurred" <<endl;
         }
-        cout<<"Do you want to continue?(y/n) : ";
-        cin>>ch;
 
-        if (ch=='n' || ch=='N'){
+        cout<<"Do you want to continue?(y/n) : ";
+        while (true){
+            cin>>ch;
+            if (ch == 'y' || ch=='Y' || ch=='n' || ch=='N'){
+                break;
+            }
+            cout<<"Invalid input, try again (y/n) \n";
+        }
+
+        if(ch=='n' || ch=='N'){
             break;
         }
     }
@@ -88,7 +95,7 @@ void options(){
     cout << "Press 4 for division " << endl;
 }
 
-void validateNums(int a){
+void validateNums(){
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout<<"Invalid input, enter a proper number: ";
