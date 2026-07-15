@@ -46,22 +46,22 @@ int main(){
     };
 
     makeGrid(board);
-    for (int i = 0; i<3; ++i){
-        int xp = 1;
-        int yp = 1;
 
-        board[xp][yp] = 2;
-
-        while (xp < board.size() - 2) {
-            system("clear");
-
-            makeGrid(board);
-
-            this_thread::sleep_for(chrono::milliseconds(500));
-
-            board[xp][yp] = 0;
-            xp++;
-            board[xp][yp] = 2;
+    for(int i=0;i<3;i++){
+        int row{1}, column{2};
+        board[row][column]=2;
+        while (row+1 < board.size()-1){
+            if (board[row+1][column] == 0){
+                board[row][column] = 0;
+                row++;
+                board[row][column] = 2;
+                cout<<"\033[2J\033[H";
+                makeGrid(board);
+                this_thread::sleep_for(chrono::milliseconds(400));
+            }
+            else{
+                break;
+            }
         }
     }
 }
