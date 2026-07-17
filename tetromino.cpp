@@ -1,9 +1,13 @@
 #include <cstdlib>
 #include <iostream>
-#include <chrono>
-#include <thread>
 using namespace std;
 #include <vector>
+#include <chrono>
+#include <thread>
+
+struct Point{
+    int row,col;
+};
 
 void makeGrid(const vector<vector<int>>& board){
     for (const auto& row:board){
@@ -18,6 +22,17 @@ void makeGrid(const vector<vector<int>>& board){
         }
         cout<<'\n';
     }
+
+}
+
+vector<Point> tetromino(){
+    vector<Point> i = {
+        {1,1},
+        {2,1},
+        {3,1},
+        {4,1}
+    };
+    return i;
 
 }
 
@@ -47,24 +62,24 @@ int main(){
 
     makeGrid(board);
 
-    for(int i=0;i<3;i++){
-        int row{1}, column{2};
-        board[row][column]=2;
-        while (row+1 < board.size()-1){
-            if (board[row+1][column] == 0){
-                board[row][column] = 0;
-                row++;
-                board[row][column] = 2;
-                cout<<"\033[2J\033[H";
-                makeGrid(board);
-                this_thread::sleep_for(chrono::milliseconds(400));
-            }
-            else{
-                break;
-            }
-        }
+    vector<Point> i = tetromino();
+    
+    while (i[3].row + 1 < board.size()-1) {
+        for (Point& point : i){ //erase point 
+            board[point.row][point.col] = 0; 
+        };
+        for (Point& point : i){
+            point.row++;
+        }; //make point
+        for (Point& point : i){
+            board[point.row][point.col] = 2; 
+        };
+        system("clear");
+        
+        makeGrid(board);
+        this_thread::sleep_for(chrono::milliseconds(500));
     }
+
 }
 
 
-//run an actual tetromino
