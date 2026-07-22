@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 using namespace std;
@@ -10,6 +9,28 @@ struct Point{
     int row,col;
 };
 
+vector<vector<int>> board = {
+    {1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1,1}
+    };
 
 //erase the previous point before moving down
 void erasePoint(vector<Point>& i, vector<vector<int>>& board){
@@ -45,8 +66,34 @@ int calcLowest(const vector<Point>& i){
 }
 
 
+bool isCurrentPiece(const vector<Point>& i, int row, int col){
+    for (const Point& p : i){
+        if (p.row == row && p.col == col){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool canMoveDown(const vector<Point>& i){
+    for (const Point& p : i){
+        int nextRow = p.row + 1;
+        if (isCurrentPiece(i,nextRow, p.col)){
+            continue;
+        }
+
+        if (board[nextRow][p.col] != 0){
+            return false;
+        }
+    }
+    return true;
+}
+
+
 //makes the tetris grid
-void makeGrid(const vector<vector<int>>& board){
+void makeGrid(){
     for (const auto& row:board){
         for (int tile:row){
             switch (tile) {
@@ -83,47 +130,21 @@ vector<Point> tetromino(){
 }
 
 int main(){
-    vector<vector<int>> board = {
-    {1,1,1,1,1,1,1,1,1,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1,1}
-    };
-
-    makeGrid(board);
-
     vector<Point> i = tetromino();
+    makePoint(i, board);
 
-  
-    int lowest = 0; 
-    while (lowest + 1 < board.size()-1) {
-        
-        erasePoint(i, board);
-
-        movePoint(i);
-
-        makePoint(i,board);
+    while (true)
+    {
         system("clear");
-        
-        makeGrid(board);
+        makeGrid();
         this_thread::sleep_for(chrono::milliseconds(500));
-        lowest = calcLowest(i);
+
+        if (!canMoveDown(i))
+            break;
+
+        erasePoint(i, board);
+        movePoint(i);
+        makePoint(i, board);
     }
 
 }
