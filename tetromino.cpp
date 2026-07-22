@@ -98,9 +98,9 @@ void makeGrid(){
     for (const auto& row:board){
         for (int tile:row){
             switch (tile) {
-                case 1: cout<<'_';break;
-                case 0: cout<<' ';break;
-                case 2: cout<<"[]";break;
+                   case 1: cout << "⬜"; break;   // Wall
+                    case 0: cout << " "; break;   // Empty
+                    case 2: cout << "⬛"; break;   // Falling piece
             
             }
             cout<<'\t';
@@ -124,7 +124,7 @@ vector<Point> tetromino(){
         {1,1},
         {2,1},
         {3,1},
-        {3,2}
+        {4,1}
     };
     return i;
 
