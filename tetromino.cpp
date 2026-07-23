@@ -45,7 +45,7 @@ void movePoint(vector<Point>& i){
         point.row++;
     };
 }
-
+//
 //make the new point
 void makePoint(vector<Point>& i, vector<vector<int>>& board){
     for (Point& point : i){
